@@ -11,10 +11,25 @@ const Hero = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setDimensions({
-        width: window.innerWidth < 768 ? 350 : window.innerWidth < 1024 ? 600 : 800,
-        height: window.innerWidth < 768 ? 400 : window.innerWidth < 1024 ? 350 : 400
-      });
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      
+      // Calculate dimensions based on viewport with padding
+      const width = Math.min(
+        viewportWidth < 768 ? viewportWidth - 48 : // Mobile: full width minus larger padding
+        viewportWidth < 1024 ? Math.min(viewportWidth * 0.7, 600) : // Tablet: 70% of viewport with max width
+        Math.min(viewportWidth * 0.45, 750), // Desktop: 45% of viewport with max width
+        800 // Maximum width
+      );
+
+      const height = Math.min(
+        viewportHeight * 0.55, // Reduced to 55% of viewport height
+        viewportWidth < 768 ? 380 : // Mobile
+        viewportWidth < 1024 ? 420 : // Tablet
+        480 // Desktop
+      );
+
+      setDimensions({ width, height });
     };
 
     handleResize(); // Initial call
@@ -25,7 +40,7 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center pt-32 pb-20">
       <Element name="hero">
-        <div className="container relative z-10">
+        <div className="container relative z-10 px-6 md:px-8 lg:px-12"> {/* Added padding */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="relative z-2 max-lg:text-center max-lg:flex max-lg:flex-col max-lg:items-center">
               <div className="mb-4">

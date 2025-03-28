@@ -26,7 +26,7 @@ const Header = () => {
         hasScrolled && " bg-black-100/80 backdrop-blur-[8px]",
       )}
     >
-      <div className="container-fluid flex items-center px-4 lg:px-7.5 xl:px-10 max-lg:py-4">
+      <div className="container-fluid flex items-center px-4 py-4 lg:px-7.5 xl:px-10 max-lg:py-4">
         <div className="flex-1">
           <LinkScroll
             to="hero"

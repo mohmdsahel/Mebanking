@@ -190,7 +190,7 @@ export default function Carousel({
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/30 to-purple-600/30" />
               </div>
               
-              <div className="relative z-10 w-full p-8 flex flex-col items-center space-y-8">
+              <div className="relative z-10 w-full p-6 md:p-8 flex flex-col items-center space-y-6 md:space-y-8">
                 <div className="text-center">
                   <div className="text-base uppercase text-white/70 mb-2">
                     {item.title}
@@ -198,7 +198,7 @@ export default function Carousel({
                   <img 
                     src={item.logo} 
                     alt="Powered by" 
-                    className="h-8 max-md:h-6 object-contain mx-auto pointer-events-none" 
+                    className="h-7 max-md:h-5 object-contain mx-auto pointer-events-none" 
                   />
                 </div>
                 
@@ -206,7 +206,7 @@ export default function Carousel({
                   <img 
                     src={item.mainLogo} 
                     alt="Event logo" 
-                    className="h-40 max-md:h-28 w-auto object-contain mb-6 max-md:mb-4 pointer-events-none" 
+                    className="h-28 max-md:h-22 w-auto object-contain mb-6 max-md:mb-4 pointer-events-none" 
                   />
                   
                   <div className="flex max-md:flex-col items-center justify-center gap-3 w-full">
