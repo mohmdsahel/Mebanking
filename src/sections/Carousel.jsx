@@ -8,21 +8,13 @@ import logo2 from "/images/logo2.png";
 const DEFAULT_ITEMS = [
   {
     id: 0,
-    title: "powered by",
-    logo: logo2,
-    mainLogo: logo,
     url: "https://mebankingai.com/sa/",
-    location: "RIYADH, KSA",
-    date: "30th April 2025",
+    video: "/images/KSA.webm"
   },
   {
     id: 1,
-    title: "powered by",
-    logo: logo2,
-    mainLogo: logo,
     url: "https://mebankingai.com/ae/",
-    location: "DUBAI, UAE",
-    date: "26th February 2025",
+    video: "/images/UAE.webm"
   },
 ];
 
@@ -130,139 +122,108 @@ export default function Carousel({
     };
 
   return (
-    <div
-      ref={containerRef}
-      className={`relative overflow-hidden p-4 ${round
-        ? "rounded-full border border-white"
-        : "rounded-[24px] border border-[#222]"
-        }`}
-      style={{
-        width: `${baseWidth}px`,
-        height: round ? `${baseWidth}px` : `${baseHeight}px`,
-      }}
-    >
-      <motion.div
-        className="flex"
-        drag="x"
-        {...dragProps}
+    <div className="relative flex flex-col gap-8">
+      <div
+        ref={containerRef}
+        className={`relative overflow-hidden p-4 pb-16 ${round
+          ? "rounded-full border border-white"
+          : "rounded-[24px] border border-[#222]"
+          }`}
         style={{
-          width: itemWidth,
-          gap: `${GAP}px`,
-          perspective: 1000,
-          perspectiveOrigin: `${currentIndex * trackItemOffset + itemWidth / 2}px 50%`,
-          x,
+          width: `${baseWidth}px`,
+          height: round ? `${baseWidth}px` : `${baseHeight + 48}px`, // Increased height
         }}
-        onDragEnd={handleDragEnd}
-        animate={{ x: -(currentIndex * trackItemOffset) }}
-        transition={effectiveTransition}
-        onAnimationComplete={handleAnimationComplete}
       >
-        {carouselItems.map((item, index) => {
-          const range = [
-            -(index + 1) * trackItemOffset,
-            -index * trackItemOffset,
-            -(index - 1) * trackItemOffset,
-          ];
-          const outputRange = [90, 0, -90];
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const rotateY = useTransform(x, range, outputRange, { clamp: false });
-          return (
-            <motion.div
-              key={index}
-              className={`relative shrink-0 flex flex-col ${round
-                ? "items-center justify-center text-center bg-[#060606] border-0"
-                : "items-start justify-between bg-[#000] rounded-[24px] overflow-hidden"
-                }`}
-              style={{
-                width: itemWidth,
-                height: round ? itemWidth : baseHeight - containerPadding * 2,
-                rotateY: rotateY,
-                ...(round && { borderRadius: "50%" }),
-              }}
-              transition={effectiveTransition}
-            >
-              <div className="absolute inset-0 w-full h-full">
-                <img 
-                  src="/images/card-bg.png" 
-                  alt="" 
-                  className="w-full h-full object-cover opacity-40"
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/30 to-purple-600/30" />
-              </div>
-              
-              <div className="relative z-10 w-full p-6 md:p-8 flex flex-col items-center space-y-6 md:space-y-8">
-                <div className="text-center">
-                  <div className="text-base uppercase text-white/70 mb-2">
-                    {item.title}
-                  </div>
-                  <img 
-                    src={item.logo} 
-                    alt="Powered by" 
-                    className="h-7 max-md:h-5 object-contain mx-auto pointer-events-none" 
+        <motion.div
+          className="flex"
+          drag="x"
+          {...dragProps}
+          style={{
+            width: itemWidth,
+            gap: `${GAP}px`,
+            perspective: 1000,
+            perspectiveOrigin: `${currentIndex * trackItemOffset + itemWidth / 2}px 50%`,
+            x,
+          }}
+          onDragEnd={handleDragEnd}
+          animate={{ x: -(currentIndex * trackItemOffset) }}
+          transition={effectiveTransition}
+          onAnimationComplete={handleAnimationComplete}
+        >
+          {carouselItems.map((item, index) => {
+            const range = [
+              -(index + 1) * trackItemOffset,
+              -index * trackItemOffset,
+              -(index - 1) * trackItemOffset,
+            ];
+            const outputRange = [90, 0, -90];
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const rotateY = useTransform(x, range, outputRange, { clamp: false });
+            return (
+              <motion.div
+                key={index}
+                className={`relative shrink-0 flex flex-col ${round
+                  ? "items-center justify-center text-center bg-[#060606] border-0"
+                  : "items-start justify-between bg-[#000] rounded-[24px] overflow-hidden"
+                  }`}
+                style={{
+                  width: itemWidth,
+                  height: round ? itemWidth : baseHeight - containerPadding * 2,
+                  rotateY: rotateY,
+                  ...(round && { borderRadius: "50%" }),
+                }}
+                transition={effectiveTransition}
+              >
+                <div className="absolute inset-0 w-full h-full">
+                  <video
+                    src={item.video}
+                    alt=""
+                    autoPlay
+                    loop
+                    muted
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 
-                <div className="w-full flex flex-col items-center">
-                  <img 
-                    src={item.mainLogo} 
-                    alt="Event logo" 
-                    className="h-28 max-md:h-22 w-auto object-contain mb-6 max-md:mb-4 pointer-events-none" 
-                  />
-                  
-                  <div className="flex max-md:flex-col items-center justify-center gap-3 w-full">
-                    <div className="flex items-center justify-center max-md:w-full max-md:mb-2">
-                      <div className="flex items-center gap-2">
-                        <img src="/images/calendar.svg" alt="calendar" className="w-4 h-4" />
-                        <span className="text-lg font-medium text-white">{item.date}</span>
-                      </div>
-                      <span className="text-white/30 mx-2">|</span>
-                      <div className="flex items-center gap-2">
-                        <img src="/images/location.svg" alt="location" className="w-4 h-4" />
-                        <span className="text-lg font-medium text-white">{item.location}</span>
-                      </div>
-                    </div>
-                    <span className="text-white/30 mx-2 hidden sm:block ">|</span>
-                    <a 
-                      href={item.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="max-md:w-full text-center inline-flex items-center justify-center gap-2 px-4 py-2 text-lg font-medium text-white bg-gradient-to-r from-[#00A3FF] to-[#0057FF] rounded-full hover:opacity-90 transition-opacity"
-                    >
-                      Explore
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
-                    </a>
-                  </div>
+                <div className="relative z-10 w-full h-full flex flex-col justify-end items-center pb-4 sm:pb-8">
+                  <a 
+                    href={item.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className={`w-auto min-w-[100px] max-w-[180px] text-center inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-6 md:px-8 py-1.5 sm:py-3 text-sm sm:text-base md:text-lg font-medium text-white bg-gradient-to-r from-[#00A3FF] to-[#0057FF] rounded-full hover:opacity-90 transition-opacity mt-auto sm:mt-0 ${
+                      item.video.includes('UAE') ? 'self-end mr-8' : ''
+                    }`}
+                  >
+                    <span className="whitespace-nowrap">Explore</span>
+                    <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </a>
                 </div>
-              </div>
-            </motion.div>
-          );
-        })}
-      </motion.div>
-      <div
-        className={`flex w-full justify-center ${round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""
-          }`}
-      >
-        <div className="mt-4 flex w-[150px] justify-between px-8">
-          {items.map((_, index) => (
-            <motion.div
-              key={index}
-              className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${currentIndex % items.length === index
-                ? round
-                  ? "bg-white"
-                  : "bg-[#333333]"
-                : round
-                  ? "bg-[#555]"
-                  : "bg-[rgba(51,51,51,0.4)]"
-                }`}
-              animate={{
-                scale: currentIndex % items.length === index ? 1.2 : 1,
-              }}
-              onClick={() => setCurrentIndex(index)}
-              transition={{ duration: 0.15 }}
-            />
-          ))}
+              </motion.div>
+            );
+          })}
+        </motion.div>
+        <div className="flex items-center justify-center gap-4 absolute bottom-4 left-0 right-0">
+          <button
+            onClick={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))}
+            className="p-2.5 rounded-full bg-gradient-to-r from-[#00A3FF]/10 to-[#0057FF]/10 border border-[#00A3FF]/20 hover:border-[#00A3FF]/40 transition-colors"
+          >
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+         
+
+          <button
+            onClick={() => setCurrentIndex((prev) => Math.min(prev + 1, items.length - 1))}
+            className="p-2.5 rounded-full bg-gradient-to-r from-[#00A3FF]/10 to-[#0057FF]/10 border border-[#00A3FF]/20 hover:border-[#00A3FF]/40 transition-colors"
+            >
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>

@@ -12,36 +12,33 @@ const Hero = () => {
   useEffect(() => {
     const handleResize = () => {
       const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
       
-      // Calculate dimensions based on viewport with padding
+      // Responsive width calculations
       const width = Math.min(
-        viewportWidth < 768 ? viewportWidth - 48 : // Mobile: full width minus larger padding
-        viewportWidth < 1024 ? Math.min(viewportWidth * 0.7, 600) : // Tablet: 70% of viewport with max width
-        Math.min(viewportWidth * 0.45, 750), // Desktop: 45% of viewport with max width
-        800 // Maximum width
+        viewportWidth < 640 ? viewportWidth - 64 : // Increased padding for small mobile
+        viewportWidth < 768 ? viewportWidth - 80 : // Increased padding for mobile
+        viewportWidth < 1024 ? Math.min(viewportWidth * 0.75, 680) : // Reduced width % for tablet
+        Math.min(viewportWidth * 0.45, 780), // Reduced width % for desktop
+        780 // Slightly reduced max width
       );
 
-      const height = Math.min(
-        viewportHeight * 0.55, // Reduced to 55% of viewport height
-        viewportWidth < 768 ? 380 : // Mobile
-        viewportWidth < 1024 ? 420 : // Tablet
-        480 // Desktop
-      );
+      // Maintain video aspect ratio (348/460)
+      const height = Math.round(width * (348/460));
 
       setDimensions({ width, height });
     };
 
-    handleResize(); // Initial call
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Update the carousel container styles
   return (
-    <section className="relative min-h-screen flex items-center pt-32 pb-20">
+    <section className="relative min-h-screen flex items-center pt-24 pb-16 md:pt-32 md:pb-20">
       <Element name="hero">
-        <div className="container relative z-10 px-6 md:px-8 lg:px-12"> {/* Added padding */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <div className="container relative z-10 px-6 sm:px-8 md:px-10 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="relative z-2 max-lg:text-center max-lg:flex max-lg:flex-col max-lg:items-center">
               <div className="mb-4">
                 {/* <div className="inline-block px-4 py-1 rounded-full bg-gradient-to-r from-blue-500/20 to-blue-600/20 border border-blue-500/30">
@@ -49,8 +46,8 @@ const Hero = () => {
                 </div> */}
               </div>
               
-              <h1 className="mb-6 h1 text-p4 uppercase max-lg:mb-7 max-lg:h2 max-md:mb-4 max-md:text-5xl max-md:leading-12">
-                <span className="text-white">Innovating</span> <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00A3FF] to-[#0057FF]">Finance</span>
+              <h1 className="mb-6 h2 text-p4  max-lg:mb-7 max-lg:h2 max-md:mb-4 max-md:text-5xl max-md:leading-12">
+                <span className="text-white">WHERE INNOVATION MEETS </span> <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00A3FF] to-[#0057FF]">INTELLIGENCE</span>
               </h1>
               
               <p className="max-w-440 mb-10 body-1 text-gray-300 max-lg:mx-auto">
@@ -58,9 +55,7 @@ const Hero = () => {
               </p>
               
               <div className="flex flex-wrap gap-4 max-lg:justify-center">
-                <LinkScroll to="features" offset={-100} spy smooth>
-                  <Button icon="/images/magictouch.svg" >Explore now</Button>
-                </LinkScroll>
+              
                 
                 
               </div>
@@ -69,7 +64,7 @@ const Hero = () => {
             </div>
             
             <div className="relative grid-cols-1 lg:grid-cols-2 gap-10 items-center max-lg:flex max-lg:justify-center">
-              <div className="w-full justify-center md:px-8 lg:px-0">
+              <div className="w-full justify-center sm:px-6 md:px-8 lg:px-4">
                 <Carousel
                   baseWidth={dimensions.width}
                   baseHeight={dimensions.height}
@@ -80,8 +75,6 @@ const Hero = () => {
                   round={false}
                 />
               </div>
-              
-              
             </div>
           </div>
         </div>
