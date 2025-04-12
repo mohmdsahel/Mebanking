@@ -1,10 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
-// You'll need to import these logos
-import logo from "/images/logo.png";
-import logo2 from "/images/logo2.png";
-
 const DEFAULT_ITEMS = [
   {
     id: 0,
